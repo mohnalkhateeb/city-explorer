@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+h1{
+  display: block;
+   font-size: 2em;
+    margin-top: 0.67em;
+     margin-bottom: 0.67em; 
+     margin-left: 0;
+      margin-right: 0;
+       font-weight: bold;
+       text-align: center;
+       background-color: blue;
+}
+form
+{
+  background-color: burlywood;
+  margin-left: 300px;
+  width: 500px;
+}
+p{
+  margin-left: 300px;
+  background-color: cyan;
+  width: 500px;
+}
+
+img
+{
+  width: 300px;
+  margin-left: 300px;
+}
