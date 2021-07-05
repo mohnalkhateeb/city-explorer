@@ -2,6 +2,7 @@
 import React from 'react';
 import axios from 'axios';
 import  './App.css';
+import Weather from './Weather'
 // npm install dotenv
 
 
@@ -12,7 +13,8 @@ class App extends React.Component {
     this.state = {
       cityInfo: {},
       searchQuery: '',
-      showingMap: false
+      showingMap: false,
+      weatherData:[]
     }
   }
 
@@ -24,13 +26,15 @@ class App extends React.Component {
     })
 
     let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
+    let LocalApi= await axios.get('http://localhost:3001/getweather?city_name=Seattle&lat=47.60621&lon=-122.33207')
 
     let allData = await axios.get(url);
 
 
     this.setState({
       cityInfo: allData.data[0],
-      showingMap: true
+      showingMap: true,
+      weatherData:LocalApi.data
     })
 
   }
@@ -48,6 +52,11 @@ class App extends React.Component {
 
         {this.state.showingMap &&
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityInfo.lat},${this.state.cityInfo.lon}&zoom=15`} />
+        }
+        {
+          this.state.weatherData.map(d=>{
+            return < Weather description={d.description} date={d.date} />
+          })
         }
 
       </div>
