@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+
 }
 
 .App-logo {
@@ -64,4 +65,9 @@ img
   width: 500px;
   margin-left: 300px;
   height: 500px;
+}
+#all
+{
+  background-image: url(https://www.google.com/imgres?imgurl=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F34%2Fb3%2F5f%2F34b35f039e58bcbf7be9fbe8c81834fb.gif&imgrefurl=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F856528422850124192%2F&tbnid=nG4AWaVwVDdscM&vet=12ahUKEwi12KPwp87xAhUHShoKHdp4BM8QMyg-egQIARBb..i&docid=S9XqeHBZ4_kzDM&w=790&h=501&q=world%20natural%20map&ved=2ahUKEwi12KPwp87xAhUHShoKHdp4BM8QMyg-egQIARBb);
+
 }
