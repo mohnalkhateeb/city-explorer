@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React  from 'react'
 
-export class Weather extends Component {
+export class Weather extends React.Component {
     render() {
         return (
             <div>
-               <h5>{this.props.date}</h5> 
-                <h1>{this.props.description}</h1> 
+               <h6>{this.props.date}</h6> 
+                <h3>{this.props.description}</h3> 
 
             </div>
         )
