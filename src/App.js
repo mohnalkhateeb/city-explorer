@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import  './App.css';
 
 
-// import Weather from './Weather';
+import Weather from './Weather';
 
 
 
@@ -24,7 +24,7 @@ class App extends React.Component {
       searchQuery: '',
       showingMap: false,
 
-      // weatherData:[]
+      weatherData:[]
 
     }
   }
@@ -37,30 +37,37 @@ class App extends React.Component {
     })
 
     let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
-
-
-    // let LocalApi= await axios.get('http://localhost:3001/getweather?city_name=Seattle&lat=47.60621&lon=-122.33207')
-
-
-
-
-
+    let qarr= this.state.searchQuery.split('') 
+    let firstchar = qarr[0].toUpperCase();
+    let partofq= this.state.searchQuery.slice(1)
+    let newqury = firstchar + partofq
+    console.log(newqury)
     let allData = await axios.get(url);
+    let localApi= await axios.get(`${process.env.REACT_APP_SERVER}getweather?city_name=${newqury}`)
+
+
+    // console.log(localApi.data.data)
+
+
+    
 
 
     this.setState({
       cityInfo: allData.data[0],
-      showingMap: true,
+      weatherData:localApi.data.data,
+      showingMap: true
 
 
-      // weatherData:LocalApi.data
+      
+     
 
 
     })
-
+    
   }
 
   render() {
+    console.log(this.state.weatherData)
     return (
       <div>
         <h1>City Explorer</h1>
@@ -87,17 +94,18 @@ class App extends React.Component {
             </Card.Text>
           </Card.Body>
         </Card>
-
+          {
+          this.state.weatherData.map((d,key)=>{
+            return < Weather description={d.weather.description} date={d.valid_date} key={key} />
+          })
+          }
+          
         {this.state.showingMap &&
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityInfo.lat},${this.state.cityInfo.lon}&zoom=15`} />
         }
+        
 
-
-        {/* {
-          this.state.weatherData.map(d=>{
-            return < Weather description={d.description} date={d.date} />
-          })
-        } */}
+       
 
 
 
