@@ -62,7 +62,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id='all'>
         <h1>City Explorer</h1>
         <form onSubmit={this.getLocation}>
           <input type='text' placeholder='city name' name='city' />
