@@ -35,7 +35,7 @@ class App extends React.Component {
     await this.setState({
       searchQuery: e.target.city.value
     })
-
+    try{
     let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
 
 
@@ -57,6 +57,10 @@ class App extends React.Component {
 
 
     })
+  }
+  catch (error){
+    console.error(error)
+  }
 
   }
 
