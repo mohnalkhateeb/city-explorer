@@ -4,10 +4,10 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
 import  './App.css';
-import Movies from './Movies';
+import Movies from './component/Movies';
 
 
-import Weather from './Weather';
+import Weather from './component/Weather';
 
 
 
@@ -46,12 +46,12 @@ class App extends React.Component {
     let firstchar = qarr[0].toUpperCase();
     let partofq= this.state.searchQuery.slice(1)
     let newqury = firstchar + partofq
-    console.log(newqury)
+    // console.log(newqury)
     let allData = await axios.get(url);
     let localApi= await axios.get(`${process.env.REACT_APP_SERVER}getweather?city_name=${newqury}`)
-    console.log(localApi)
+    // console.log(localApi)
 
-    console.log(localApi.data.data)
+    // console.log(localApi.data.data)
     this.setState({
       cityInfo: allData.data[0],
       weatherData:localApi.data,
@@ -88,7 +88,7 @@ class App extends React.Component {
     .catch(error=>{
       console.log(error)
     })
-    console.log(this.state.weatherFore) 
+    // console.log(this.state.weatherFore) 
   }
   getMovies(city_name)
   {
@@ -106,12 +106,12 @@ class App extends React.Component {
     
     })
     .catch(error=>{
-      console.log(error)
+      console.error(error)
     })
   }
 
   render() {
-    console.log(this.state.weatherData)
+    // console.log(this.state.weatherData)
     return (
       <div id='all'>
         <h1>City Explorer</h1>

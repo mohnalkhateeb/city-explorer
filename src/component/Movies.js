@@ -3,6 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card'; 
 
 export class Movies extends React.Component {
+  constructor(props){
+    super(props)
+  }
     render() {
         return (
             <div>
