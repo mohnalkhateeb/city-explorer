@@ -37,8 +37,8 @@ class App extends React.Component {
     await this.setState({
       searchQuery: e.target.city.value
     })
-    this.weatherForecast(this.state.searchQuery)
-    this.getMovies(this.state.searchQuery)
+
+    try{
     let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
     let qarr= this.state.searchQuery.split('') 
     let firstchar = qarr[0].toUpperCase();
@@ -61,27 +61,11 @@ class App extends React.Component {
 
 
     })
-    
+
   }
-   weatherForecast(city_name)
-  {
-    let qarr= city_name.split('') 
-    let firstchar = qarr[0].toUpperCase();
-    let partofq= city_name.slice(1)
-    let newqury = firstchar + partofq
-    let current_url = `${process.env.REACT_APP_SERVER}weather_forecast?city_name=${newqury}`
-    axios
-    .get(current_url)
-    .then(current_weather=>{
-    this.setState({
-      weatherFore : current_weather.data
-    })
-    
-    })
-    .catch(error=>{
-      console.log(error)
-    })
-    console.log(this.state.weatherFore) 
+  catch (error){
+    console.error(error)
+
   }
 
   getMovies(city_name)
