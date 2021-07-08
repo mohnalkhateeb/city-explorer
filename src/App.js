@@ -7,7 +7,7 @@ import  './App.css';
 // import Movies from './Movies';
 
 
-// import Weather from './Weather';
+import Weather from './Weather';
 
 
 
@@ -40,19 +40,19 @@ class App extends React.Component {
 
     try{
     let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
-    // let qarr= this.state.searchQuery.split('') 
-    // let firstchar = qarr[0].toUpperCase();
-    // let partofq= this.state.searchQuery.slice(1)
-    // let newqury = firstchar + partofq
-    // console.log(newqury)
+    let qarr= this.state.searchQuery.split('') 
+    let firstchar = qarr[0].toUpperCase();
+    let partofq= this.state.searchQuery.slice(1)
+    let newqury = firstchar + partofq
+    console.log(newqury)
     let allData = await axios.get(url);
-    // let localApi= await axios.get(`${process.env.REACT_APP_SERVER}getweather?city_name=${newqury}`)
-    // console.log(localApi)
+    let localApi= await axios.get(`${process.env.REACT_APP_SERVER}getweather?city_name=${newqury}`)
+    console.log(localApi)
 
-    // console.log(localApi.data.data)
+    console.log(localApi.data.data)
     this.setState({
       cityInfo: allData.data[0],
-      // weatherData:localApi.data,
+      weatherData:localApi.data,
       showingMap: true
 
 
@@ -126,9 +126,9 @@ class App extends React.Component {
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityInfo.lat},${this.state.cityInfo.lon}&zoom=15`} />
         }
          {
-          // this.state.weatherData.map((d,key)=>{
-          //   return < Weather description={d.description} date={d.valid_date} key={key} />
-          // })
+          this.state.weatherData.map((d,key)=>{
+            return < Weather description={d.description} date={d.valid_date} key={key} />
+          })
           }
           {
             // this.state.moviesData.map((m,key)=>{
