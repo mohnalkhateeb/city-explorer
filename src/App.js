@@ -4,7 +4,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
 import  './App.css';
-// import Movies from './Movies';
+import Movies from './Movies';
 
 
 import Weather from './Weather';
@@ -24,9 +24,9 @@ class App extends React.Component {
       cityInfo: {},
       searchQuery: '',
       showingMap: false,
-      // weatherFore: [],
+      weatherFore: [],
       weatherData:[],
-      // moviesData: []
+      moviesData: []
 
     }
   }
@@ -39,6 +39,8 @@ class App extends React.Component {
     })
 
     try{
+      this.weatherForecast(this.state.searchQuery)
+    this.getMovies(this.state.searchQuery)
     let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
     let qarr= this.state.searchQuery.split('') 
     let firstchar = qarr[0].toUpperCase();
@@ -68,25 +70,45 @@ class App extends React.Component {
 
   }
   }
-  // getMovies(city_name)
-  // {
-  //   let qarr= city_name.split('') 
-  //   let firstchar = qarr[0].toUpperCase();
-  //   let partofq= city_name.slice(1)
-  //   let newqury = firstchar + partofq
-  //   let current_url = `${process.env.REACT_APP_SERVER}movies?city_name=${newqury}`
-  //   axios
-  //   .get(current_url)
-  //   .then(current_movies=>{
-  //   this.setState({
-  //     moviesData : current_movies.data
-  //   })
+  weatherForecast(city_name)
+  {
+    let qarr= city_name.split('') 
+    let firstchar = qarr[0].toUpperCase();
+    let partofq= city_name.slice(1)
+    let newqury = firstchar + partofq
+    let current_url = `${process.env.REACT_APP_SERVER}weather_forecast?city_name=${newqury}`
+    axios
+    .get(current_url)
+    .then(current_weather=>{
+    this.setState({
+      weatherFore : current_weather.data
+    })
+
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+    console.log(this.state.weatherFore) 
+  }
+  getMovies(city_name)
+  {
+    let qarr= city_name.split('') 
+    let firstchar = qarr[0].toUpperCase();
+    let partofq= city_name.slice(1)
+    let newqury = firstchar + partofq
+    let current_url = `${process.env.REACT_APP_SERVER}movies?city_name=${newqury}`
+    axios
+    .get(current_url)
+    .then(current_movies=>{
+    this.setState({
+      moviesData : current_movies.data
+    })
     
-  //   })
-  //   .catch(error=>{
-  //     console.log(error)
-  //   })
-  // }
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+  }
 
   render() {
     console.log(this.state.weatherData)
@@ -116,11 +138,11 @@ class App extends React.Component {
             </Card.Text>
           </Card.Body>
         </Card>
-          {/* {
+          {
           this.state.weatherFore.map((d,key)=>{
             return < Weather description={d.description} date={d.valid_date} key={key} />
           })
-          } */}
+          }
           
         {this.state.showingMap &&
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityInfo.lat},${this.state.cityInfo.lon}&zoom=15`} />
@@ -131,11 +153,11 @@ class App extends React.Component {
           })
           }
           {
-            // this.state.moviesData.map((m,key)=>{
-            //   return <Movies title={m.title} overview={m.overview} averageVotes={m.averageVotes}
-            //   totalVotes={m.totalVotes} imageUrl={m.imageUrl} popularity={m.popularity}
-            //   releasedOn={m.releasedOn} key={key}/>
-            // })
+            this.state.moviesData.map((m,key)=>{
+              return <Movies title={m.title} overview={m.overview} averageVotes={m.averageVotes}
+              totalVotes={m.totalVotes} imageUrl={m.imageUrl} popularity={m.popularity}
+              releasedOn={m.releasedOn} key={key}/>
+            })
           }
 
         
