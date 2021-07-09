@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import './App.css';
 import Movies from './component/Movies';
 
-
+import Yelp from './component/Yelp';
 import Weather from './component/Weather';
 
 
@@ -25,9 +25,9 @@ class App extends React.Component {
       searchQuery: '',
       showingMap: false,
       weatherFore: [],
-      weatherData: [],
+      weatherData:[],
       moviesData: [],
-      
+      yelpData : []
 
     }
   }
@@ -41,16 +41,18 @@ class App extends React.Component {
 
     try {
       this.weatherForecast(this.state.searchQuery)
-      this.getMovies(this.state.searchQuery)
-      let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
-      let qarr = this.state.searchQuery.split('')
-      let firstchar = qarr[0].toUpperCase();
-      let partofq = this.state.searchQuery.slice(1)
-      let newqury = firstchar + partofq
-      // console.log(newqury)
-      let allData = await axios.get(url);
-      let localApi = await axios.get(`${process.env.REACT_APP_SERVER}getweather?city_name=${newqury}`)
-      // console.log(localApi)
+
+    this.getMovies(this.state.searchQuery)
+    this.getYelp(this.state.searchQuery)
+    let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
+    let qarr= this.state.searchQuery.split('') 
+    let firstchar = qarr[0].toUpperCase();
+    let partofq= this.state.searchQuery.slice(1)
+    let newqury = firstchar + partofq
+    // console.log(newqury)
+    let allData = await axios.get(url);
+    let localApi= await axios.get(`${process.env.REACT_APP_SERVER}getweather?city_name=${newqury}`)
+    // console.log(localApi)
 
       // console.log(localApi.data.data)
       this.setState({
@@ -108,7 +110,26 @@ class App extends React.Component {
         console.error(error)
       })
   }
-  
+
+  getYelp(city_name) {
+    let qarr = city_name.split('')
+    let firstchar = qarr[0].toUpperCase();
+    let partofq = city_name.slice(1)
+    let newqury = firstchar + partofq
+    let current_url = `${process.env.REACT_APP_SERVER}yelp?city_name=${newqury}`
+    axios
+      .get(current_url)
+      .then(current_yelp => {
+        this.setState({
+          yelpData: current_yelp.data
+        })
+
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
+
   render() {
     // console.log(this.state.weatherData)
     return (
@@ -137,9 +158,11 @@ class App extends React.Component {
             </Card.Text>
           </Card.Body>
         </Card>
-        
-        {
-          this.state.weatherFore.map((d, key) => {
+
+        <h1>Weather Forecast</h1>
+          {
+          this.state.weatherFore.map((d,key)=>{
+
             return < Weather description={d.description} date={d.valid_date} key={key} />
           })
         }
@@ -147,20 +170,30 @@ class App extends React.Component {
         {this.state.showingMap &&
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityInfo.lat},${this.state.cityInfo.lon}&zoom=15`} />
         }
-        {
-          this.state.weatherData.map((d, key) => {
+
+        <h1>Old Weather</h1>
+         {
+          this.state.weatherData.map((d,key)=>{
             return < Weather description={d.description} date={d.valid_date} key={key} />
           })
-        }
+          }
+          <h1>Movies</h1>
+          {
+            this.state.moviesData.map((m,key)=>{
+              return <Movies title={m.title} overview={m.overview} averageVotes={m.averageVotes}
+              totalVotes={m.totalVotes} imageUrl={m.imageUrl} popularity={m.popularity}
+              releasedOn={m.releasedOn} key={key}/>
+            })
+          }
+          <h1>Yelp</h1>
         {
-          this.state.moviesData.map((m, key) => {
-            return <Movies title={m.title} overview={m.overview} averageVotes={m.averageVotes}
+          this.state.yelpData.map((m, key) => {
+            return <Yelp title={m.title} overview={m.overview} averageVotes={m.averageVotes}
               totalVotes={m.totalVotes} imageUrl={m.imageUrl} popularity={m.popularity}
               releasedOn={m.releasedOn} key={key} />
           })
         }
-       
-
+        
 
 
 
