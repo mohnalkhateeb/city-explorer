@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
-import  './App.css';
+import './App.css';
 import Movies from './component/Movies';
 
 import Yelp from './component/Yelp';
@@ -28,6 +28,7 @@ class App extends React.Component {
       weatherData:[],
       moviesData: [],
       yelpData : []
+
     }
   }
 
@@ -38,8 +39,9 @@ class App extends React.Component {
       searchQuery: e.target.city.value
     })
 
-    try{
+    try {
       this.weatherForecast(this.state.searchQuery)
+
     this.getMovies(this.state.searchQuery)
     this.getYelp(this.state.searchQuery)
     let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
@@ -52,64 +54,63 @@ class App extends React.Component {
     let localApi= await axios.get(`${process.env.REACT_APP_SERVER}getweather?city_name=${newqury}`)
     // console.log(localApi)
 
-    // console.log(localApi.data.data)
-    this.setState({
-      cityInfo: allData.data[0],
-      weatherData:localApi.data,
-      showingMap: true
+      // console.log(localApi.data.data)
+      this.setState({
+        cityInfo: allData.data[0],
+        weatherData: localApi.data,
+        showingMap: true
 
 
-      
-     
 
 
-    })
 
+
+      })
+
+    }
+    catch (error) {
+      console.error(error)
+
+    }
   }
-  catch (error){
-    console.error(error)
-
-  }
-  }
-  weatherForecast(city_name)
-  {
-    let qarr= city_name.split('') 
+  weatherForecast(city_name) {
+    let qarr = city_name.split('')
     let firstchar = qarr[0].toUpperCase();
-    let partofq= city_name.slice(1)
+    let partofq = city_name.slice(1)
     let newqury = firstchar + partofq
     let current_url = `${process.env.REACT_APP_SERVER}weather_forecast?city_name=${newqury}`
     axios
-    .get(current_url)
-    .then(current_weather=>{
-    this.setState({
-      weatherFore : current_weather.data
-    })
+      .get(current_url)
+      .then(current_weather => {
+        this.setState({
+          weatherFore: current_weather.data
+        })
 
-    })
-    .catch(error=>{
-      console.log(error)
-    })
+      })
+      .catch(error => {
+        console.log(error)
+      })
     // console.log(this.state.weatherFore) 
   }
-  getMovies(city_name)
-  {
-    let qarr= city_name.split('') 
+  getMovies(city_name) {
+    let qarr = city_name.split('')
     let firstchar = qarr[0].toUpperCase();
-    let partofq= city_name.slice(1)
+    let partofq = city_name.slice(1)
     let newqury = firstchar + partofq
     let current_url = `${process.env.REACT_APP_SERVER}movies?city_name=${newqury}`
     axios
-    .get(current_url)
-    .then(current_movies=>{
-    this.setState({
-      moviesData : current_movies.data
-    })
-    
-    })
-    .catch(error=>{
-      console.error(error)
-    })
+      .get(current_url)
+      .then(current_movies => {
+        this.setState({
+          moviesData: current_movies.data
+        })
+
+      })
+      .catch(error => {
+        console.error(error)
+      })
   }
+
   getYelp(city_name) {
     let qarr = city_name.split('')
     let firstchar = qarr[0].toUpperCase();
@@ -128,6 +129,7 @@ class App extends React.Component {
         console.error(error)
       })
   }
+
   render() {
     // console.log(this.state.weatherData)
     return (
@@ -147,7 +149,7 @@ class App extends React.Component {
               {this.state.cityInfo.lon}
             </Card.Text>
           </Card.Body>
-        </Card> 
+        </Card>
         <Card style={{ width: '18rem' }}>
           <Card.Body>
             <Card.Title>latitude : </Card.Title>
@@ -156,16 +158,19 @@ class App extends React.Component {
             </Card.Text>
           </Card.Body>
         </Card>
+
         <h1>Weather Forecast</h1>
           {
           this.state.weatherFore.map((d,key)=>{
+
             return < Weather description={d.description} date={d.valid_date} key={key} />
           })
-          }
-          
+        }
+
         {this.state.showingMap &&
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityInfo.lat},${this.state.cityInfo.lon}&zoom=15`} />
         }
+
         <h1>Old Weather</h1>
          {
           this.state.weatherData.map((d,key)=>{
@@ -192,9 +197,10 @@ class App extends React.Component {
 
 
 
+
       </div>
     )
   }
-  }
+}
 
 export default App;
