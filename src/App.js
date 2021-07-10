@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import './App.css';
 import Movies from './component/Movies';
 
-import Yelp from './component/Yelp';
+// import Yelps from './component/Yelps';
 import Weather from './component/Weather';
 
 
@@ -25,9 +25,9 @@ class App extends React.Component {
       searchQuery: '',
       showingMap: false,
       weatherFore: [],
-      weatherData:[],
+      // weatherData:[],
       moviesData: [],
-      yelpData : []
+      // yelpData : []
 
     }
   }
@@ -43,21 +43,21 @@ class App extends React.Component {
       this.weatherForecast(this.state.searchQuery)
 
     this.getMovies(this.state.searchQuery)
-    this.getYelp(this.state.searchQuery)
+    // this.getYelp(this.state.searchQuery)
     let url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
-    let qarr= this.state.searchQuery.split('') 
-    let firstchar = qarr[0].toUpperCase();
-    let partofq= this.state.searchQuery.slice(1)
-    let newqury = firstchar + partofq
-    // console.log(newqury)
+    // let qarr= this.state.searchQuery.split('') 
+    // let firstchar = qarr[0].toUpperCase();
+    // let partofq= this.state.searchQuery.slice(1)
+    // let newqury = firstchar + partofq
+    // // console.log(newqury)
     let allData = await axios.get(url);
-    let localApi= await axios.get(`${process.env.REACT_APP_SERVER}getweather?city_name=${newqury}`)
+    // let localApi= await axios.get(`${process.env.REACT_APP_SERVER}getweather?city_name=${newqury}`)
     // console.log(localApi)
 
       // console.log(localApi.data.data)
       this.setState({
         cityInfo: allData.data[0],
-        weatherData: localApi.data,
+        // weatherData: localApi.data,
         showingMap: true
 
 
@@ -111,24 +111,24 @@ class App extends React.Component {
       })
   }
 
-  getYelp(city_name) {
-    let qarr = city_name.split('')
-    let firstchar = qarr[0].toUpperCase();
-    let partofq = city_name.slice(1)
-    let newqury = firstchar + partofq
-    let current_url = `${process.env.REACT_APP_SERVER}yelp?city_name=${newqury}`
-    axios
-      .get(current_url)
-      .then(current_yelp => {
-        this.setState({
-          yelpData: current_yelp.data
-        })
+  // getYelp(city_name) {
+  //   let qarr = city_name.split('')
+  //   let firstchar = qarr[0].toUpperCase();
+  //   let partofq = city_name.slice(1)
+  //   let newqury = firstchar + partofq
+  //   let current_url = `${process.env.REACT_APP_SERVER}yelp?city_name=${newqury}`
+  //   axios
+  //     .get(current_url)
+  //     .then(current_yelp => {
+  //       this.setState({
+  //         yelpData: current_yelp.data
+  //       })
 
-      })
-      .catch(error => {
-        console.error(error)
-      })
-  }
+  //     })
+  //     .catch(error => {
+  //       console.error(error)
+  //     })
+  // }
 
   render() {
     // console.log(this.state.weatherData)
@@ -165,6 +165,7 @@ class App extends React.Component {
 
           //   return < Weather description={d.description} date={d.valid_date} key={key} />
           // })
+          
           < Weather weatherData={this.state.weatherFore} />
         }
         <h1>City Map</h1>
@@ -172,12 +173,12 @@ class App extends React.Component {
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityInfo.lat},${this.state.cityInfo.lon}&zoom=15`} />
         }
 
-        <h1>Old Weather</h1>
+        {/* <h1>Old Weather</h1> */}
          {
           // this.state.weatherData.map((d,key)=>{
           //   return < Weather description={d.description} date={d.valid_date} key={key} />
           // })
-          < Weather weatherData={this.state.weatherData} />
+          // < Weather weatherData={this.state.weatherData} />
           }
           <h1>Movies</h1>
           {
@@ -188,13 +189,14 @@ class App extends React.Component {
             // })
             <Movies moviesData={this.state.moviesData}/>
           }
-          <h1>Yelp</h1>
+          {/* <h1>Yelp</h1> */}
         {
-          this.state.yelpData.map((m, key) => {
-            return <Yelp title={m.title} overview={m.overview} averageVotes={m.averageVotes}
-              totalVotes={m.totalVotes} imageUrl={m.imageUrl} popularity={m.popularity}
-              releasedOn={m.releasedOn} key={key} />
-          })
+          // this.state.yelpData.map((m, key) => {
+          //   return <Yelp title={m.title} overview={m.overview} averageVotes={m.averageVotes}
+          //     totalVotes={m.totalVotes} imageUrl={m.imageUrl} popularity={m.popularity}
+          //     releasedOn={m.releasedOn} key={key} />
+          // })
+          //  <Yelps yelpData={this.state.yelpData} />
         }
         
 
