@@ -167,7 +167,7 @@ class App extends React.Component {
           // })
           < Weather weatherData={this.state.weatherFore} />
         }
-
+        <h1>City Map</h1>
         {this.state.showingMap &&
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityInfo.lat},${this.state.cityInfo.lon}&zoom=15`} />
         }
