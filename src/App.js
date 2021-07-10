@@ -161,29 +161,32 @@ class App extends React.Component {
 
         <h1>Weather Forecast</h1>
           {
-          this.state.weatherFore.map((d,key)=>{
+          // this.state.weatherFore.map((d,key)=>{
 
-            return < Weather description={d.description} date={d.valid_date} key={key} />
-          })
+          //   return < Weather description={d.description} date={d.valid_date} key={key} />
+          // })
+          < Weather weatherData={this.state.weatherFore} />
         }
-
+        <h1>City Map</h1>
         {this.state.showingMap &&
           <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityInfo.lat},${this.state.cityInfo.lon}&zoom=15`} />
         }
 
         <h1>Old Weather</h1>
          {
-          this.state.weatherData.map((d,key)=>{
-            return < Weather description={d.description} date={d.valid_date} key={key} />
-          })
+          // this.state.weatherData.map((d,key)=>{
+          //   return < Weather description={d.description} date={d.valid_date} key={key} />
+          // })
+          < Weather weatherData={this.state.weatherData} />
           }
           <h1>Movies</h1>
           {
-            this.state.moviesData.map((m,key)=>{
-              return <Movies title={m.title} overview={m.overview} averageVotes={m.averageVotes}
-              totalVotes={m.totalVotes} imageUrl={m.imageUrl} popularity={m.popularity}
-              releasedOn={m.releasedOn} key={key}/>
-            })
+            // this.state.moviesData.map((m,key)=>{
+            //   return <Movies title={m.title} overview={m.overview} averageVotes={m.averageVotes}
+            //   totalVotes={m.totalVotes} imageUrl={m.imageUrl} popularity={m.popularity}
+            //   releasedOn={m.releasedOn} key={key}/>
+            // })
+            <Movies moviesData={this.state.moviesData}/>
           }
           <h1>Yelp</h1>
         {
